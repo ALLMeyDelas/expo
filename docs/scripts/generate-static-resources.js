@@ -9,10 +9,14 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 const basePath = path.join(dirname, '../', 'public', 'static', 'constants');
 
 function writeResource(filename, data) {
+  const filePath = path.join(basePath, filename);
+
+  if (fs.existsSync(filePath)) {
+    fs.rmSync(filePath);
+  }
+
   fs.writeFileSync(path.join(basePath, filename), JSON.stringify(data), { flag: 'wx' });
 }
-
-fs.mkdirSync(basePath);
 
 writeResource('versions.json', versions);
 writeResource('navigation.json', navigation);
